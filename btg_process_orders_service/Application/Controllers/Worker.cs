@@ -21,28 +21,20 @@ public class Worker : BackgroundService
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        try
+        IsRunning = true;
+        await MessageQueue.CreateConnection();
+        await MessageQueue.AddConsumerListener(
+                queueName: "btg-pactual-order-created",
+                onListener: (sender, args) => Wrapper(sender, args, ProcessOrder)
+            );
+        while (IsRunning)
         {
-            IsRunning = true;
-            await MessageQueue.CreateConnection();
-            await MessageQueue.AddConsumerListener(
-                    queueName: "btg-pactual-order-created",
-                    onListener: (sender, args) => Wrapper(sender, args, ProcessOrder)
-                );
-            while (IsRunning)
-            {
-                await Task.Delay(1000);
-            }
-        }
-        catch (Exception)
-        {
-            Environment.Exit(1);
+            await Task.Delay(1000);
         }
     }
 
     private async Task Wrapper(object sender, BasicDeliverEventArgs args, Func<object, BasicDeliverEventArgs, string, Task> callback)
     {
-        DateTime? conclusionDate = null;
         try
         {
             var channel = ((AsyncEventingBasicConsumer)sender).Channel;
@@ -51,13 +43,14 @@ public class Worker : BackgroundService
                 await channel.AbortAsync();
                 return;
             }
-            var traceId = $"{Guid.NewGuid().ToString()}-{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss").Replace(" ", "")}";
+            var traceId = $"{Guid.NewGuid()}-{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss").Replace(" ", "")}";
             await callback(sender, args, traceId);
-            conclusionDate = DateTime.Now;
+            DateTime? conclusionDate = DateTime.Now;
         }
         catch (Exception)
         {
             IsRunning = false;
+            Environment.Exit(1);
         }
     }
 
@@ -65,7 +58,7 @@ public class Worker : BackgroundService
     {
         var channel = ((AsyncEventingBasicConsumer)consumer).Channel;
         var json = GetJsonFromMessageBytes(args.Body);
-        ProcessOrderService.Execute(json);
+        await ProcessOrderService.Execute(json);
         await channel.BasicAckAsync(deliveryTag: args.DeliveryTag, multiple: false);
     }
 

@@ -8,7 +8,8 @@ public class OrderItem
     public Quantity Quantity { get; init; }
     public Price Price { get; init; }
 
-    public OrderItem(string product, int quantity, decimal price) {
+    public OrderItem(string product, int quantity, decimal price)
+    {
         Product = product;
         Quantity = new Quantity(quantity);
         Price = new Price(price);

@@ -1,17 +1,23 @@
+using btg_process_orders_service.Domain.VO;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
+
 namespace btg_process_orders_service.Domain.Entity;
 
 public class Order
 {
-    public Guid Id { get; set; }
-    public int OrderCode { get; init; }
-    public int CustomerCode { get; init; }
+    [BsonId]
+    [BsonRepresentation(BsonType.String)]
+    public Guid Id { get; init; }
+    public OrderCode OrderCode { get; init; }
+    public CustomerCode CustomerCode { get; init; }
     public List<OrderItem> Items { get; init; }
 
     private Order(Guid id, int orderCode, int customerCode, List<OrderItem> items)
     {
         Id = id;
-        OrderCode = orderCode;
-        CustomerCode = customerCode;
+        OrderCode = new OrderCode(orderCode);
+        CustomerCode = new CustomerCode(customerCode);
         Items = items;
     }
 
