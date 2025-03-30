@@ -1,6 +1,6 @@
 using System.Text;
 using btg_process_orders_service.Infra.Queue;
-using btg_process_orders_service.Services;
+using btg_process_orders_service.Application.Services;
 using Newtonsoft.Json.Linq;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;

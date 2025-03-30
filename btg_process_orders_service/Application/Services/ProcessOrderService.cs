@@ -3,7 +3,7 @@ using btg_process_orders_service.Infra.NoSql;
 using btg_process_orders_service.Infra.NoSql.Dtos;
 using Newtonsoft.Json.Linq;
 
-namespace btg_process_orders_service.Services;
+namespace btg_process_orders_service.Application.Services;
 public interface IProcessOrderService
 {
     Task Execute(JToken json);
