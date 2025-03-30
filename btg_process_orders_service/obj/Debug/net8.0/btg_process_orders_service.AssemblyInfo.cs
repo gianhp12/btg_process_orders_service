@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("btg_process_orders_service")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4ab9e16f8e90817f6d28769de8b8eeba37f5749e")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c6e8e858e8cbe34b1c42fa7c88ab018cf7e7d3b5")]
 [assembly: System.Reflection.AssemblyProductAttribute("btg_process_orders_service")]
 [assembly: System.Reflection.AssemblyTitleAttribute("btg_process_orders_service")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

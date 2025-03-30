@@ -1,4 +1,5 @@
 using System.Text;
+using btg_process_orders_service.Infra.Queue.Configuration;
 using btg_process_orders_service.Infra.Queue.Dtos;
 using Newtonsoft.Json;
 using RabbitMQ.Client;
@@ -26,7 +27,10 @@ public class RabbitMQAdapter : IMessageQueue
         var connection = await connFactory.CreateConnectionAsync();
         Connection = connection;
     }
-    public async Task CreateChannel() { Channel = await Connection.CreateChannelAsync(); }
+    public async Task CreateChannel()
+    {
+        Channel = await Connection.CreateChannelAsync();
+    }
 
     public async Task SendMessage(QueueMessageDto dto)
     {

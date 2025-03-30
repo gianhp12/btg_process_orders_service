@@ -1,4 +1,4 @@
-namespace btg_process_orders_service.Infra.Queue;
+namespace btg_process_orders_service.Infra.Queue.Configuration;
 
 public interface IQueueConfiguration
 {
